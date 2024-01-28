@@ -6,23 +6,36 @@ require('dotenv').config();
 const app = express();
 const PORT = process.env.PORT || 3001;
 
+// Middleware
 app.use(cors());
 app.use(express.json());
 
-const mongoURI = process.env.MONGODB_URI || 'mongodb://localhost:27017/barista';
+// Connect to MongoDB
+// MONGODB_URI=mongodb+srv://atiqisrak:NiloyNiil9@brew.aepyqcg.mongodb.net/?retryWrites=true&w=majority
 
+// PORT=5000
 mongoose.connect(
-    mongoURI,
-    {
-        useNewUrlParser: true,
-        useUnifiedTopology: true,
-    },
-).then(() => {
-    console.log('The connection with mongod is established');
-}).catch((err) => {
-    console.error('Error connecting to MongoDB:', err);
-});
+    process.env.MONGODB_URI || 'mongodb://localhost:27017/brewly',
+    () => {
+        console.log('Connected to MongoDB');
+    }
+);
 
 mongoose.connection.on('error', (err) =>
-    console.log(err.message + ' is mongod not running?')
+    console.log(err.message + ' Is MongoDB running?')
 );
+
+// Routes
+const userRoutes = require('./routes/userRoutes');
+const foodRoutes = require('./routes/foodRoutes');
+const orderRoutes = require('./routes/orderRoutes');
+const secureRoutes = require('./routes/secureRoutes');
+
+app.use('/api/users', userRoutes);
+app.use('/api/foods', foodRoutes);
+app.use('/api/orders', orderRoutes);
+app.use('/api/secure', secureRoutes);
+
+app.listen(PORT, () => {
+    console.log(`Server is running on port ${PORT}`);
+});
