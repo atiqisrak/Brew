@@ -1,6 +1,4 @@
 import React from 'react';
-import { AuthProvider, useAuth } from '../context/AuthContext';
-import { AppProvider } from '../context/AppContext';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import WelcomeScreen from '../components/WelcomeScreen';
@@ -9,21 +7,25 @@ import OrderScreen from '../components/OrderScreen';
 import ConfirmationScreen from '../components/ConfirmationScreen';
 import Login from '../components/AuthScreens/Login';
 import Register from '../components/AuthScreens/Register';
+import { AppProvider, useAppContext } from '../context/AppContext';
+import { useAuth, AuthProvider } from '../context/AuthContext';
 
 const Stack = createStackNavigator();
 
 const AuthScreens = () => {
     return (
-        <Stack.Navigator initialRouteName="Login">
-            <Stack.Screen name="Login" component={Login} />
-            <Stack.Screen name="Register" component={Register} />
-        </Stack.Navigator>
+        <AuthProvider>
+            <Stack.Navigator initialRouteName="Login">
+                <Stack.Screen name="Login" component={Login} />
+                <Stack.Screen name="Register" component={Register} />
+            </Stack.Navigator>
+        </AuthProvider>
     );
 };
 
 const AppNavigator = () => {
-    const { token } = useAuth(); // Use token from AuthContext
-    const { order } = useAppContext(); // Use order from AppContext
+    const { token } = useAuth();
+    const { order } = useAppContext();
 
     return (
         <NavigationContainer>

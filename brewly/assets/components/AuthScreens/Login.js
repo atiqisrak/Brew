@@ -2,34 +2,37 @@
 
 import React, { useState } from 'react';
 import { View, TextInput, TouchableOpacity, Text } from 'react-native';
-import { useAuth } from '../../context/AuthContext'; // Import useAuth
-import { useAppContext } from '../../context/AppContext'; // Import useAppContext for order-related state
 import { globalStyles, textInput } from '../../styles/globalStyles';
+import { useAuth } from '../../context/AuthContext';
+import { useAppContext } from '../../context/AppContext';
 
 const Login = () => {
-    const { login } = useAuth(); // Use the login function from the AuthContext
-    const { setOrder } = useAppContext(); // Use setOrder from the AppContext
+    const { login } = useAuth();
+    const { setOrder } = useAppContext();
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
 
     const handleLogin = async () => {
         try {
-            // Perform authentication, get the token from your server
-            const token = 'your_obtained_token'; // Replace with actual token obtained from server
-
-            // Use the login function from AuthContext to set the token
-            login(token);
-
-            // Clear order-related state on successful login
-            setOrder(null);
-
-            // Additional logic if needed after successful login
-
-        } catch (error) {
-            // Handle authentication error
-            console.error('Authentication error:', error.message);
+            const response = await fetch('http://localhost:5000/api/auth/login', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ username, password }),
+            });
+            const data = await response.json();
+            if (data.success) {
+                login(data.token);
+                setOrder(null);
+            }
         }
-    };
+        catch (err) {
+            console.log(err);
+        }
+    }
+
+
 
     return (
         <View style={globalStyles.container}>

@@ -1,6 +1,7 @@
 const express = require('express');
 const mongoose = require('mongoose');
 const cors = require('cors');
+require('dotenv').config();
 
 const app = express();
 const PORT = process.env.PORT || 3001;
@@ -8,12 +9,20 @@ const PORT = process.env.PORT || 3001;
 app.use(cors());
 app.use(express.json());
 
-// Connect to MongoDB (replace 'your_database_url' with your MongoDB connection string)
-mongoose.connect('your_database_url', {
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
+const mongoURI = process.env.MONGODB_URI || 'mongodb://localhost:27017/barista';
+
+mongoose.connect(
+    mongoURI,
+    {
+        useNewUrlParser: true,
+        useUnifiedTopology: true,
+    },
+).then(() => {
+    console.log('The connection with mongod is established');
+}).catch((err) => {
+    console.error('Error connecting to MongoDB:', err);
 });
 
-app.listen(PORT, () => {
-    console.log(`Server is running on port ${PORT}`);
-});
+mongoose.connection.on('error', (err) =>
+    console.log(err.message + ' is mongod not running?')
+);
