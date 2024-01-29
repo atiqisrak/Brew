@@ -29,7 +29,7 @@ exports.login = async (req, res) => {
 };
 
 exports.createUser = async (req, res) => {
-    const { username, password, role } = req.body;
+    const { name, email, phone, username, password, role } = req.body;
 
     try {
         const existingUser = await User.findOne({ username });
@@ -42,10 +42,12 @@ exports.createUser = async (req, res) => {
         const hashedPassword = await bcrypt.hash(password, saltRounds);
 
         const user = new User({
+            name,
+            email,
+            phone,
             username,
             password: hashedPassword,
             role,
-            // Add other user characteristics here
         });
 
         const newUser = await user.save();

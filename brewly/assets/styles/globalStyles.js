@@ -1,8 +1,8 @@
 // globalStyles.js
 
 export const colors = {
-    primary: '#3498db',
-    secondary: '#2ecc71',
+    primary: '#5c3408',
+    secondary: '#FFA800',
     text: '#333',
     background: '#ecf0f1',
 };
@@ -65,5 +65,17 @@ export const globalStyles = {
         borderRadius: 5,
         alignItems: 'center',
         marginBottom: 20,
+    },
+    linkText: {
+        color: colors.primary,
+        fontWeight: 'bold',
+    },
+    logo: {
+        width: 200,
+        height: 200,
+        marginBottom: 20,
+    },
+    customizationButton: {
+        marginTop: 10,
     },
 };

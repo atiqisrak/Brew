@@ -9,7 +9,6 @@ const orderSchema = new mongoose.Schema({
         default: {},
     },
     status: { type: String, enum: ['Received', 'In Progress', 'Delivered'], default: 'Received' },
-    // Add other order characteristics here
 });
 
 const Order = mongoose.model('Order', orderSchema);

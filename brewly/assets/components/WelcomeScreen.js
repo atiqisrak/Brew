@@ -1,16 +1,33 @@
 import React from 'react';
 import { View, Text, TouchableOpacity } from 'react-native';
 import { globalStyles } from '../styles/globalStyles';
+import { useNavigation } from '@react-navigation/native';
 
-const WelcomeScreen = ({ navigation }) => {
+const WelcomeScreen = () => {
+    const navigation = useNavigation();
+
+    const handleOrderNow = () => {
+        navigation.navigate('Options');
+    };
+
+    const handleOrderList = () => {
+        navigation.navigate('OrderList');
+    };
     return (
         <View style={globalStyles.container}>
             <Text style={globalStyles.heading}>Welcome to Brew</Text>
             <TouchableOpacity
                 style={globalStyles.button}
-                onPress={() => navigation.navigate('Options')}>
+                onPress={handleOrderNow}>
                 <Text style={globalStyles.buttonText}>
                     Order Now
+                </Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+                style={globalStyles.button}
+                onPress={handleOrderList}>
+                <Text style={globalStyles.buttonText}>
+                    View Orders
                 </Text>
             </TouchableOpacity>
         </View>
