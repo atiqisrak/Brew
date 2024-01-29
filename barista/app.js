@@ -10,15 +10,28 @@ const PORT = process.env.PORT || 3001;
 app.use(cors());
 app.use(express.json());
 
-// Connect to MongoDB
-// MONGODB_URI=mongodb+srv://atiqisrak:NiloyNiil9@brew.aepyqcg.mongodb.net/?retryWrites=true&w=majority
+// MongoDB Connection
+const uri = process.env.MONGODB_URI;
 
-// PORT=5000
-mongoose.connect(
-    process.env.MONGODB_URI || 'mongodb://localhost:27017/brewly',
-    () => {
-        console.log('Connected to MongoDB');
+// Connect to MongoDB asynchrously
+async function connect() {
+    try {
+        await mongoose.connect(uri, {
+            useNewUrlParser: true,
+            useUnifiedTopology: true,
+        });
+        console.log('MongoDB connected');
+    } catch (error) {
+        console.log(error.message);
+        process.exit(1);
     }
+}
+
+connect();
+
+// Log MongoDB connection status
+mongoose.connection.on('connected', () =>
+    console.log('Mongoose connected to db')
 );
 
 mongoose.connection.on('error', (err) =>
@@ -31,10 +44,15 @@ const foodRoutes = require('./routes/foodRoutes');
 const orderRoutes = require('./routes/orderRoutes');
 const secureRoutes = require('./routes/secureRoutes');
 
+
+// Note: The order of the routes is important. The more specific routes should be placed before the more general routes. For example, the route /api/users/login should be placed before the route /api/users/:id. Otherwise, the route /api/users/login will never be reached.
+
 app.use('/api/users', userRoutes);
 app.use('/api/foods', foodRoutes);
 app.use('/api/orders', orderRoutes);
 app.use('/api/secure', secureRoutes);
+
+// Error Handling
 
 app.listen(PORT, () => {
     console.log(`Server is running on port ${PORT}`);

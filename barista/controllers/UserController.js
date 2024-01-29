@@ -1,5 +1,5 @@
-// controllers/UserController.js
 const bcrypt = require('bcrypt');
+const jwt = require('jsonwebtoken');
 const User = require('../models/user');
 
 exports.login = async (req, res) => {
@@ -54,5 +54,36 @@ exports.createUser = async (req, res) => {
         res.status(201).json({ user: newUser, token });
     } catch (error) {
         res.status(400).json({ message: error.message });
+    }
+};
+
+exports.updateUser = async (req, res) => {
+    const { id } = req.params;
+    const { username, password, role } = req.body;
+
+    try {
+        const user = await User.findById(id);
+
+        if (!user) {
+            return res.status(404).json({ message: 'User not found' });
+        }
+
+        // Update user information
+        if (username) user.username = username;
+        if (password) {
+            const saltRounds = 10;
+            user.password = await bcrypt.hash(password, saltRounds);
+        }
+        if (role) user.role = role;
+
+        // Save the updated user
+        const updatedUser = await user.save();
+
+        // You might want to generate a new token here if the username or role is updated
+        const token = updatedUser.generateAuthToken();
+
+        res.json({ user: updatedUser, token });
+    } catch (error) {
+        res.status(500).json({ message: error.message });
     }
 };
