@@ -1,6 +1,6 @@
 // brewly/src/components/Auth/SignIn.js
 import React, { useState } from 'react';
-import { View, TextInput, TouchableOpacity, Text, Image } from 'react-native';
+import { View, TextInput, TouchableOpacity, Text, Image, Alert } from 'react-native';
 import { useAuth } from '../../context/AuthContext';
 import { globalStyles } from '../../styles/globalStyles';
 
@@ -10,11 +10,14 @@ const SignIn = ({ navigation }) => {
     const [password, setPassword] = useState('');
 
     const handleSignIn = async () => {
-        // Implement authentication logic here (e.g., call API)
-        // Upon successful authentication, call login(userData);
         try {
-            const userData = { username, password, role: 'employee' }; // Replace with actual user data
-            login(userData);
+
+            if (!username || !password) {
+                throw new Error('Please enter a username and password');
+            }
+
+            const userData = await login(username, password);
+
 
             if (userData.role === 'employee') {
                 navigation.navigate('Welcome');
@@ -24,8 +27,67 @@ const SignIn = ({ navigation }) => {
         } catch (error) {
             // Handle authentication errors
             console.error('Authentication error:', error.message);
+            // Try Again
+            Alert.alert(
+                'Authentication Error',
+                error.message,
+                [
+                    {
+                        text: 'Try Again',
+                        onPress: () => {
+                            setUsername('');
+                            setPassword('');
+                        }
+                    }
+                ],
+                { cancelable: false }
+            );
         }
     };
+
+    const handleSignIn2 = async () => {
+        try {
+            if (!username || !password) {
+                throw new Error('Please enter a username and password');
+            }
+
+            const userData = await login(username, password);
+
+            Alert.alert(
+                'Received Credentials',
+                'Username: ' + username + '\nPassword: ' + password + '\nToken: ' + userData.token,
+                [
+                    {
+                        text: 'Try Again',
+                        onPress: () => {
+                            setUsername('');
+                            setPassword('');
+                        }
+                    }
+                ],
+                { cancelable: false }
+            );
+        } catch (error) {
+            // Handle authentication errors
+            console.error('Authentication error:', error.message);
+            // Try Again
+            Alert.alert(
+                'Authentication Error',
+                error.message,
+                [
+                    {
+                        text: 'Try Again',
+                        onPress: () => {
+                            setUsername('');
+                            setPassword('');
+                        }
+                    }
+                ],
+                { cancelable: false }
+            );
+        }
+    };
+
 
     return (
         <View
@@ -51,7 +113,7 @@ const SignIn = ({ navigation }) => {
             />
             <TouchableOpacity style={
                 globalStyles.button
-            } onPress={handleSignIn}>
+            } onPress={handleSignIn2}>
                 <Text
                     style={globalStyles.buttonText}
                 >Sign In</Text>

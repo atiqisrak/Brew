@@ -1,6 +1,6 @@
 // brewly/src/components/Auth/SignUp.js
 import React, { useState } from 'react';
-import { View, TouchableOpacity } from 'react-native';
+import { View, TouchableOpacity, Alert } from 'react-native';
 import { useAuth } from '../../context/AuthContext';
 import { globalStyles } from '../../styles/globalStyles';
 import { TextInput, RadioButton, Button, Text } from 'react-native-paper';
@@ -18,12 +18,24 @@ const SignUp = ({ navigation }) => {
 
     const handleSignUp = async () => {
         try {
-
+            if (!name || !email || !phone || !username || !password) {
+                throw new Error('Please fill out all fields');
+            }
             // const selectedRole = role === 0 ? 'employee' : 'staff';
             const userData = { name, email, phone, username, password, role };
 
             await signUp(userData);
-            navigation.navigate('SignIn');
+            Alert.alert(
+                'You have successfully signed up!',
+                'Please sign in to continue',
+                [
+                    {
+                        text: 'Sign In',
+                        onPress: () => navigation.navigate('SignIn')
+                    }
+                ],
+                { cancelable: false }
+            );
         }
         catch (err) {
             console.log("Error signing up: ", err);

@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text, TouchableOpacity } from 'react-native';
+import { View, Text, TouchableOpacity, Image } from 'react-native';
 import { globalStyles } from '../styles/globalStyles';
 import { useNavigation } from '@react-navigation/native';
 
@@ -15,6 +15,10 @@ const WelcomeScreen = () => {
     };
     return (
         <View style={globalStyles.container}>
+            <Image
+                source={require('../images/brew-v1.png')}
+                style={globalStyles.logo}
+            />
             <Text style={globalStyles.heading}>Welcome to Brew</Text>
             <TouchableOpacity
                 style={globalStyles.button}

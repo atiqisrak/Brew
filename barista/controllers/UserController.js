@@ -24,6 +24,7 @@ exports.login = async (req, res) => {
 
         res.json({ token });
     } catch (error) {
+        console.log("Ling Error: ", error.message)
         res.status(500).json({ message: error.message });
     }
 };

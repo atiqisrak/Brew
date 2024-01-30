@@ -2,8 +2,9 @@
 const mongoose = require('mongoose');
 
 const orderSchema = new mongoose.Schema({
-    employeeId: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true },
+    userId: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true },
     foodId: { type: mongoose.Schema.Types.ObjectId, ref: 'Food', required: true },
+    option: { type: String, required: true },
     customization: {
         type: Object,
         default: {},

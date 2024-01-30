@@ -1,5 +1,3 @@
-// OrderScreen.js
-
 import React from 'react';
 import { View, Text, TouchableOpacity, Alert } from 'react-native';
 import { useAppContext } from '../context/AppContext';
@@ -10,7 +8,7 @@ import instance from '../api/instance';
 
 const OrderScreen = ({ route, navigation }) => {
     const { option, customization } = route.params;
-    const { setOrder } = useAppContext();
+    const { setOrder, user } = useAppContext();
     const [loading, setLoading] = React.useState(false);
 
     const getOrderSummary = () => {
@@ -51,8 +49,18 @@ const OrderScreen = ({ route, navigation }) => {
         try {
             setLoading(true);
 
+            // Get user id from context
+            if (!user || !user._id) {
+                throw new Error('User not found.');
+                console.log("User: ", user);
+                return;
+            }
+            const foodId = 1;
+
             // Create an order object with option and customization details
             const orderDetails = {
+                userId: user._id,
+                foodId,
                 option,
                 customization,
             };

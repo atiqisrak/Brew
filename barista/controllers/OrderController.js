@@ -23,14 +23,17 @@ exports.getOrderById = async (req, res) => {
 };
 
 exports.createOrder = async (req, res) => {
-    const order = new Order({
-        employeeId: req.body.employeeId,
-        foodId: req.body.foodId,
-        customization: req.body.customization || {},
-        status: req.body.status || 'Received',
-    });
+
+    const { userId, option, customization, status } = req.body;
 
     try {
+        const order = new Order({
+            userId: req.body.userId,
+            foodId: req.body.foodId,
+            customization: req.body.customization || {},
+            status: req.body.status || 'Received',
+        });
+
         const newOrder = await order.save();
         res.status(201).json(newOrder);
     } catch (error) {
@@ -45,7 +48,7 @@ exports.updateOrder = async (req, res) => {
             return res.status(404).json({ message: 'Order not found' });
         }
 
-        order.employeeId = req.body.employeeId || order.employeeId;
+        order.userId = req.body.userId || order.userId;
         order.foodId = req.body.foodId || order.foodId;
         order.customization = req.body.customization || order.customization;
         order.status = req.body.status || order.status;
