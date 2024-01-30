@@ -1,6 +1,37 @@
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
-const User = require('../models/user');
+const User = require('../models/User');
+
+const hashPassword = async (password) => {
+    const saltRounds = 10;
+    return await bcrypt.hash(password, saltRounds);
+}
+
+const matchPassword = async (password, hashedPassword) => {
+    return await bcrypt.compare(password, hashedPassword);
+}
+
+const generateAuthToken = (user) => {
+    return jwt.sign({ _id: user._id, username: user.username, role: user.role }, process.env.JWT_SECRET);
+}
+
+exports.createUser = async (req, res) => {
+    const { name, email, phone, username, password, role } = req.body;
+
+    try {
+        const hashedPassword = await hashPassword(password);
+        const newUser = new User({ name, email, phone, username, password: hashedPassword, role });
+        const savedUser = await newUser.save();
+        const token = generateAuthToken(savedUser);
+
+        res.json({ user: savedUser, token });
+    } catch (error) {
+        console.log("Create User Error: ", error.message)
+        res.status(500).json({ message: error.message });
+    }
+
+
+};
 
 exports.login = async (req, res) => {
     const { username, password } = req.body;
@@ -12,51 +43,21 @@ exports.login = async (req, res) => {
             return res.status(401).json({ message: 'Invalid credentials' });
         }
 
-        const isPasswordValid = await bcrypt.compare(password, user.password);
+        const isMatch = await matchPassword(password, user.password);
 
-        if (!isPasswordValid) {
+        if (!isMatch) {
             return res.status(401).json({ message: 'Invalid credentials' });
         }
 
-        const token = user.generateAuthToken();
+        const token = generateAuthToken(user);
+
         user.jwtToken = token;
         await user.save();
 
-        res.json({ token });
+        res.json({ user, token });
     } catch (error) {
         console.log("Ling Error: ", error.message)
         res.status(500).json({ message: error.message });
-    }
-};
-
-exports.createUser = async (req, res) => {
-    const { name, email, phone, username, password, role } = req.body;
-
-    try {
-        const existingUser = await User.findOne({ username });
-
-        if (existingUser) {
-            return res.status(400).json({ message: 'Username already exists' });
-        }
-
-        const saltRounds = 10;
-        const hashedPassword = await bcrypt.hash(password, saltRounds);
-
-        const user = new User({
-            name,
-            email,
-            phone,
-            username,
-            password: hashedPassword,
-            role,
-        });
-
-        const newUser = await user.save();
-        const token = user.generateAuthToken();
-
-        res.status(201).json({ user: newUser, token });
-    } catch (error) {
-        res.status(400).json({ message: error.message });
     }
 };
 
