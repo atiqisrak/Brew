@@ -17,6 +17,7 @@
     "expo": "~50.0.4",
     "expo-notifications": "^0.27.6",
     "expo-status-bar": "~1.11.1",
+    "lottie-react-native": "^6.6.0",
     "react": "18.2.0",
     "react-native": "0.73.2",
     "react-native-dotenv": "^3.4.9",

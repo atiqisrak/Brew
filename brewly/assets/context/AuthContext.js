@@ -8,9 +8,10 @@ export const AuthProvider = ({ children }) => {
   // Login a user
   const login = async (username, password) => {
     try {
-      const PORT = 9000 || 3001;
+      const PORT = 9000;
+      const localIP = '192.168.0.185';
 
-      const response = await fetch(`http://localhost:${PORT}/api/users/login`, {
+      const response = await fetch(`http://${localIP}:${PORT}/api/users/login`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -42,9 +43,10 @@ export const AuthProvider = ({ children }) => {
   // Sign up a new user
   const signUp = async (userData) => {
     try {
-      const PORT = 9000 || 3001;
+      const PORT = 9000;
 
-      const response = await fetch(`http://localhost:${PORT}/api/users/register`, {
+      const localIP = '192.168.0.185';
+      const response = await fetch(`http://${localIP}:${PORT}/api/users/register`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

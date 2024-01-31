@@ -31,17 +31,17 @@ const AppNavigator = () => {
 
     return (
         <NavigationContainer>
-            {
+            {/* {
                 user ?
                     (
                         <AppProvider>
                             {user.role === 'employee' ?
                                 (
-                                    <Stack.Navigator initialRouteName="Welcome">
+                                    <Stack.Navigator initialRouteName="Welcome" screenOptions={{ headerShown: false }}>
                                         <Stack.Screen name="Welcome" component={WelcomeScreen} />
                                         <Stack.Screen name="Options" component={OptionsScreen} />
                                         <Stack.Screen name="Order" component={OrderScreen} />
-                                        <Stack.Screen name="OrderList" component={OrderList} />
+                                        <Stack.Screen name="Order List" component={OrderList} />
                                         <Stack.Screen name="OrderDetails" component={OrderDetails} />
                                         <Stack.Screen name="Profile" component={Profile} />
                                         <Stack.Screen name="Personalize" component={PersonalizeOrder} />
@@ -50,10 +50,15 @@ const AppNavigator = () => {
                                 )
                                 :
                                 (
-                                    <Stack.Navigator initialRouteName="OrderList">
+                                    <Stack.Navigator initialRouteName="OrderList" screenOptions={{ headerShown: false }}>
                                         <Stack.Screen name="OrderList" component={OrderList} />
                                         <Stack.Screen name="OrderDetails" component={OrderDetails} />
                                         <Stack.Screen name="Profile" component={Profile} />
+                                        <Stack.Screen name="Welcome" component={WelcomeScreen} />
+                                        <Stack.Screen name="Options" component={OptionsScreen} />
+                                        <Stack.Screen name="Order" component={OrderScreen} />
+                                        <Stack.Screen name="Personalize" component={PersonalizeOrder} />
+                                        <Stack.Screen name="Confirmation" component={ConfirmationOrder} />
                                     </Stack.Navigator>
                                 )}
                         </AppProvider>
@@ -62,7 +67,17 @@ const AppNavigator = () => {
                     (
                         <AuthScreens />
                     )
-            }
+            } */}
+            <Stack.Navigator initialRouteName="Welcome" screenOptions={{ headerShown: false }}>
+                <Stack.Screen name="Welcome" component={WelcomeScreen} />
+                <Stack.Screen name="Options" component={OptionsScreen} />
+                <Stack.Screen name="Order" component={OrderScreen} />
+                <Stack.Screen name="Order List" component={OrderList} />
+                <Stack.Screen name="OrderDetails" component={OrderDetails} />
+                <Stack.Screen name="Profile" component={Profile} />
+                <Stack.Screen name="Personalize" component={PersonalizeOrder} />
+                <Stack.Screen name="Confirmation" component={ConfirmationOrder} />
+            </Stack.Navigator>
         </NavigationContainer>
     );
 }

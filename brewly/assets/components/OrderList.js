@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, FlatList } from 'react-native';
+import { View, Text, FlatList, TouchableOpacity } from 'react-native';
 import instance from '../api/instance';
 
-const OrderList = ({ route }) => {
+const OrderList = ({ navigation, route }) => {
     const [orders, setOrders] = useState([]);
     const [loading, setLoading] = useState(true);
 
@@ -20,13 +20,13 @@ const OrderList = ({ route }) => {
         fetchOrders();
     }, []);
 
-    if (loading) {
-        return (
-            <View>
-                <Text>Loading...</Text>
-            </View>
-        );
-    }
+    // if (loading) {
+    //     return (
+    //         <View>
+    //             <Text>Loading...</Text>
+    //         </View>
+    //     );
+    // }
 
     const renderOrderItem = ({ item }) => (
         <View>
@@ -40,11 +40,19 @@ const OrderList = ({ route }) => {
     return (
         <View>
             <Text>Order List</Text>
-            <FlatList
+            {/* <FlatList
                 data={orders}
                 keyExtractor={(item) => item.id}
                 renderItem={renderOrderItem}
-            />
+            /> */}
+            <TouchableOpacity
+                style={{ backgroundColor: 'lightblue', padding: 10, margin: 10 }}
+                onPress={() => {
+                    navigation.navigate('Welcome');
+                }}
+            >
+                <Text>Go to Welcome</Text>
+            </TouchableOpacity>
         </View>
     );
 };

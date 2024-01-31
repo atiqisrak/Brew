@@ -1,6 +1,6 @@
 // middleware/authMiddleware.js
 const jwt = require('jsonwebtoken');
-const User = require('../models/User');
+const user = require('../models/user');
 
 const authMiddleware = async (req, res, next) => {
     const token = req.header('Authorization');
@@ -11,7 +11,7 @@ const authMiddleware = async (req, res, next) => {
 
     try {
         const decoded = jwt.verify(token, process.env.JWT_SECRET);
-        const user = await User.findOne({ _id: decoded._id, jwtToken: token });
+        const user = await user.findOne({ _id: decoded._id, jwtToken: token });
 
         console.log("decoded: ", decoded);
         if (!user) {
