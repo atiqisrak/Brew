@@ -78,4 +78,7 @@ export const globalStyles = {
     customizationButton: {
         marginTop: 10,
     },
+    scrollViewContainer: {
+        flexGrow: 1,
+    },
 };

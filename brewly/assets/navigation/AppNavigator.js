@@ -13,6 +13,7 @@ import SignIn from '../components/Auth/SignIn';
 import SignUp from '../components/Auth/SignUp';
 import PersonalizeOrder from '../components/PersonalizeOrder';
 import ConfirmationOrder from '../components/ConfirmationOrder';
+import BottomNav from '../components/BottomNav';
 
 const Stack = createStackNavigator();
 
@@ -69,6 +70,7 @@ const AppNavigator = () => {
                     )
             } */}
             <Stack.Navigator initialRouteName="Welcome" screenOptions={{ headerShown: false }}>
+                <Stack.Screen name="BottomNav" component={BottomNav} />
                 <Stack.Screen name="Welcome" component={WelcomeScreen} />
                 <Stack.Screen name="Options" component={OptionsScreen} />
                 <Stack.Screen name="Order" component={OrderScreen} />

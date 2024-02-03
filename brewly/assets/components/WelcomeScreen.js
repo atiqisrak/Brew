@@ -3,9 +3,20 @@ import { View, Text, TouchableOpacity, Image, ScrollView, SafeAreaView, ImageBac
 import { globalStyles } from '../styles/globalStyles';
 import { useNavigation } from '@react-navigation/native';
 import LottieView from 'lottie-react-native';
-import { Fonts } from '../styles/customfonts';
+
+// expo-font
+import { useFonts } from 'expo-font';
 
 const WelcomeScreen = () => {
+    const [fontsLoaded] = useFonts({
+        'Raleway Bold': require('../fonts/Raleway-Bold.ttf'),
+        'Cookie Regular': require('../fonts/Cookie-Regular.ttf'),
+        'Courgette Regular': require('../fonts/Courgette-Regular.ttf'),
+        'LeckerliOne Regular': require('../fonts/LeckerliOne-Regular.ttf'),
+        'Pacifico Regular': require('../fonts/Pacifico-Regular.ttf'),
+        'Satisfy Regular': require('../fonts/Satisfy-Regular.ttf'),
+        'Montserrat Bold': require('../fonts/Montserrat-Bold.ttf'),
+    });
     const navigation = useNavigation();
 
     const handleOrderNow = () => {
@@ -17,13 +28,9 @@ const WelcomeScreen = () => {
     };
 
     return (
-        <SafeAreaView style={{
-            flex: 1,
-            fontFamily: 'Poppins',
-
-        }}>
+        <SafeAreaView style={styles.scrollViewContainer}>
             <ImageBackground
-                source={require('../images/brewbg.png')}
+                source={require('../images/brewbg2.png')}
                 style={styles.backgroundImage}
                 resizeMode="cover"
             >
@@ -32,23 +39,58 @@ const WelcomeScreen = () => {
                         source={require('../images/coffee.json')}
                         autoPlay
                         loop
-                        style={{ width: 200, height: 200 }}
+                        style={{ width: 400, height: 400 }}
                     />
-                    <Text style={styles.heading}>Welcome to Brew</Text>
-                    <TouchableOpacity
-                        style={globalStyles.button}
-                        onPress={handleOrderNow}>
-                        <Text style={globalStyles.buttonText}>
-                            Order Now
-                        </Text>
-                    </TouchableOpacity>
-                    <TouchableOpacity
-                        style={globalStyles.button}
-                        onPress={handleOrderList}>
-                        <Text style={globalStyles.buttonText}>
-                            View Orders
-                        </Text>
-                    </TouchableOpacity>
+                    <View style={{
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                    }}>
+                        <Text style={{
+                            fontFamily: 'LeckerliOne Regular',
+                            fontSize: 40,
+                            marginBottom: 20,
+                            color: '#5c3408',
+                            textAlign: 'center',
+                        }}>Welcome to Brew</Text>
+                        <TouchableOpacity
+                            style={{
+                                backgroundColor: '#5c3408',
+                                paddingVertical: 30,
+                                paddingHorizontal: 20,
+                                borderRadius: 5,
+                                alignItems: 'center',
+                                marginBottom: 20,
+                                width: 300,
+                            }}
+                            onPress={handleOrderNow}>
+                            <Text style={{
+                                fontFamily: 'LeckerliOne Regular',
+                                fontSize: 29,
+                                color: '#fff',
+                            }}>
+                                Order Now
+                            </Text>
+                        </TouchableOpacity>
+                        <TouchableOpacity
+                            style={{
+                                backgroundColor: '#5c3408',
+                                paddingVertical: 30,
+                                paddingHorizontal: 20,
+                                borderRadius: 5,
+                                alignItems: 'center',
+                                marginBottom: 20,
+                                width: 300,
+                            }}
+                            onPress={handleOrderList}>
+                            <Text style={{
+                                fontFamily: 'LeckerliOne Regular',
+                                fontSize: 29,
+                                color: '#fff',
+                            }}>
+                                View Orders
+                            </Text>
+                        </TouchableOpacity>
+                    </View>
                 </View>
             </ImageBackground>
         </SafeAreaView>
@@ -58,8 +100,6 @@ const WelcomeScreen = () => {
 const styles = StyleSheet.create({
     backgroundImage: {
         flex: 1,
-        // width: '100%',
-        // height: '300px',
         position: 'absolute',
         top: 0,
         left: 0,
@@ -72,14 +112,12 @@ const styles = StyleSheet.create({
     },
     contentContainer: {
         flex: 1,
-        // justifyContent: 'center',
         alignItems: 'center',
-        paddingTop: 100,
+        paddingTop: 20,
     },
     heading: {
         fontSize: 30,
         marginBottom: 20,
-        fontFamily: Fonts.PoppinsLight,
     },
 });
 
