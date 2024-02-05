@@ -1,92 +1,77 @@
-import React, { useState } from 'react';
+import React, { useLayoutEffect, useState } from 'react';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { View, TouchableOpacity, StyleSheet, SafeAreaView } from 'react-native';
-import { HomeTwo, Shop } from '@icon-park/react';
 import WelcomeScreen from './WelcomeScreen';
 import OptionsScreen from './OptionsScreen';
 import OrderList from './OrderList';
 import Profile from './Auth/Profile';
+import { useIsFocused, useNavigation } from '@react-navigation/native';
+import { Icon, MD3Colors } from 'react-native-paper';
 
+const Tab = createBottomTabNavigator();
 
 const BottomNav = () => {
-    const Tab = createBottomTabNavigator();
-    // const [activeKey, setActiveKey] = useState('Home');
+    const navigation = useNavigation();
+    const isFocused = useIsFocused();
+
+    useLayoutEffect(() => {
+        navigation.setOptions({
+            headerShown: false,
+        });
+    }, [navigation]);
+
 
     const tabs = [
         {
-            key: 'Home',
             title: 'Home',
-            icon: <HomeTwo theme="two-tone" size="24" fill={['#333', '#2F88FF']} strokeLinejoin="bevel" />,
-            component: WelcomeScreen,
+            icon: <Icon source="camera" size={24} />,
         },
         {
-            key: 'Options',
             title: 'Options',
-            icon: <Shop theme="two-tone" size="24" fill={['#333', '#2F88FF']} strokeLinejoin="bevel" />,
+            icon: <Icon source="camera" size={24} />,
             component: OptionsScreen,
         },
         {
-            key: 'Shop',
             title: 'Shop',
-            icon: <Shop theme="two-tone" size="24" fill={['#333', '#2F88FF']} strokeLinejoin="bevel" />,
+            icon: <Icon source="camera" size={24} />,
             component: OrderList,
         },
         {
-            key: 'Profile',
             title: 'Profile',
-            icon: <Shop theme="two-tone" size="24" fill={['#333', '#2F88FF']} strokeLinejoin="bevel" />,
+            icon: <Icon source="camera" size={24} />,
             component: Profile,
         },
     ];
 
-
     return (
-        <SafeAreaView>
-
+        <SafeAreaView style={{ flex: 1 }}>
             <Tab.Navigator
-            // tabBarOptions={{
-            //     style: {
-            //         position: 'absolute',
-            //         bottom: 0,
-            //         left: 0,
-            //         right: 0,
-            //         backgroundColor: '#411530',
-            //         borderTopLeftRadius: 30,
-            //         borderTopRightRadius: 30,
-            //         overflow: 'hidden',
-            //         paddingBottom: 10,
-            //         height: 70,
-            //     },
-            //     tabStyle: {
-            //         width: 100,
-            //         height: 70,
-            //         alignItems: 'center',
-            //         justifyContent: 'center',
-            //     },
-            //     iconStyle: {
-            //         width: 40,
-            //         height: 40,
-            //         borderRadius: 20,
-            //     },
-            //     labelStyle: {
-            //         display: 'none',
-            //     },
-            // }}
+                initialRouteName="Home"
+                tabBarOptions={{
+                    showLabel: false,
+                    style: {
+                        position: 'absolute',
+                        bottom: 25,
+                        left: 20,
+                        right: 20,
+                        elevation: 0,
+                        backgroundColor: '#ffffff',
+                        borderRadius: 15,
+                        height: 90,
+                        ...styles.shadow,
+                    },
+                }}
             >
                 {tabs.map((tab, index) => (
                     <Tab.Screen
                         key={index}
-                        name={tab.key}
+                        name={tab.title}
                         component={tab.component}
                         options={{
-                            tabBarIcon: () => (
-                                <TouchableOpacity
-                                    style={styles.tabButton}
-                                    // onPress={() => setActiveKey(tab.key)}
-                                    onPress={() => console.log(tab.key)}
-                                >
+                            tabBarIcon: ({ focused }) => (
+                                <View style={{ alignItems: 'center', justifyContent: 'center', top: 5 }}>
                                     {tab.icon}
-                                </TouchableOpacity>
+                                </View>
                             ),
                         }}
                     />
@@ -98,15 +83,11 @@ const BottomNav = () => {
 
 const styles = StyleSheet.create({
     tabButton: {
-        flex: 1,
-        alignItems: 'center',
+        width: 50,
+        height: 50,
+        borderRadius: 50,
         justifyContent: 'center',
-        backgroundColor: '#411530',
-        borderRadius: 20,
-        width: '100%',
-        height: '100%',
-        opacity: 0.8,
+        alignItems: 'center',
     },
 });
-
 export default BottomNav;

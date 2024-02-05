@@ -3,8 +3,6 @@ import { View, Text, TouchableOpacity, Image, ScrollView, SafeAreaView, ImageBac
 import { globalStyles } from '../styles/globalStyles';
 import { useNavigation } from '@react-navigation/native';
 import LottieView from 'lottie-react-native';
-
-// expo-font
 import { useFonts } from 'expo-font';
 
 const WelcomeScreen = () => {
@@ -19,6 +17,10 @@ const WelcomeScreen = () => {
     });
     const navigation = useNavigation();
 
+    if (!fontsLoaded) {
+        return <Text>Loading...</Text>;
+    }
+
     const handleOrderNow = () => {
         navigation.navigate('Options');
     };
@@ -29,6 +31,7 @@ const WelcomeScreen = () => {
 
     return (
         <SafeAreaView style={styles.scrollViewContainer}>
+            {/* <ScrollView> */}
             <ImageBackground
                 source={require('../images/brewbg2.png')}
                 style={styles.backgroundImage}
@@ -39,60 +42,31 @@ const WelcomeScreen = () => {
                         source={require('../images/coffee.json')}
                         autoPlay
                         loop
-                        style={{ width: 400, height: 400 }}
+                        style={{ width: 350, height: 350 }}
                     />
                     <View style={{
                         alignItems: 'center',
                         justifyContent: 'center',
                     }}>
-                        <Text style={{
-                            fontFamily: 'LeckerliOne Regular',
-                            fontSize: 40,
-                            marginBottom: 20,
-                            color: '#5c3408',
-                            textAlign: 'center',
-                        }}>Welcome to Brew</Text>
+                        <Text style={styles.heading}>Welcome to Brew</Text>
                         <TouchableOpacity
-                            style={{
-                                backgroundColor: '#5c3408',
-                                paddingVertical: 30,
-                                paddingHorizontal: 20,
-                                borderRadius: 5,
-                                alignItems: 'center',
-                                marginBottom: 20,
-                                width: 300,
-                            }}
+                            style={styles.button}
                             onPress={handleOrderNow}>
-                            <Text style={{
-                                fontFamily: 'LeckerliOne Regular',
-                                fontSize: 29,
-                                color: '#fff',
-                            }}>
+                            <Text style={styles.buttonText}>
                                 Order Now
                             </Text>
                         </TouchableOpacity>
                         <TouchableOpacity
-                            style={{
-                                backgroundColor: '#5c3408',
-                                paddingVertical: 30,
-                                paddingHorizontal: 20,
-                                borderRadius: 5,
-                                alignItems: 'center',
-                                marginBottom: 20,
-                                width: 300,
-                            }}
+                            style={styles.button}
                             onPress={handleOrderList}>
-                            <Text style={{
-                                fontFamily: 'LeckerliOne Regular',
-                                fontSize: 29,
-                                color: '#fff',
-                            }}>
+                            <Text style={styles.buttonText}>
                                 View Orders
                             </Text>
                         </TouchableOpacity>
                     </View>
                 </View>
             </ImageBackground>
+            {/* </ScrollView> */}
         </SafeAreaView>
     );
 };
@@ -116,8 +90,25 @@ const styles = StyleSheet.create({
         paddingTop: 20,
     },
     heading: {
-        fontSize: 30,
+        fontSize: 38,
         marginBottom: 20,
+        fontFamily: 'Pacifico Regular',
+        color: '#5c3408',
+    },
+    button: {
+        fontSize: 30,
+        fontFamily: 'Pacifico Regular',
+        color: '#fff',
+        marginBottom: 20,
+        backgroundColor: '#5c3408',
+        paddingVertical: 10,
+        paddingHorizontal: 20,
+        borderRadius: 10,
+    },
+    buttonText: {
+        fontSize: 20,
+        fontFamily: 'Raleway Bold',
+        color: '#fff',
     },
 });
 

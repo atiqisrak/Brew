@@ -52,8 +52,8 @@ const OptionsScreen = () => {
                         ))
                     }
                 </View>
-                <BottomNav />
             </ScrollView>
+            <BottomNav />
         </SafeAreaView>
     );
 };
