@@ -31,7 +31,12 @@ const AppNavigator = () => {
     const { user } = useAuth();
 
     return (
-        <NavigationContainer>
+        <NavigationContainer style={{
+            flex: 1,
+            width: '100%',
+            height: '100%',
+            resizeMode: 'cover',
+        }}>
             {/* {
                 user ?
                     (

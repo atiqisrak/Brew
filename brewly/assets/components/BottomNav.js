@@ -70,10 +70,10 @@ const BottomNav = () => {
                     tabBarStyle: {
                         height: 60,
                         display: "flex",
-                        justifyContent: "space-between",
-                        alignItems: "center",
-                        borderRadius: 12,
-                        marginTop: -50,
+                        backgroundColor: "transparent",
+                        zIndex: 100,
+                        position: "absolute",
+                        top: 0,
                     },
                     tabBarIcon: ({ focused }) => {
                         const tabBackgroundColor = focused ? "#5c3408" : "transparent";
@@ -81,7 +81,7 @@ const BottomNav = () => {
                             <TouchableOpacity
                                 style={[styles.tabButton,
                                 { backgroundColor: tabBackgroundColor },
-                                { color: focused ? "#fff" : "#5c3408" }
+                                { color: focused ? "#fff" : "#5c3408" },
                                 ]}
                                 onPress={() => navigation.navigate(route.name)}
                             >
